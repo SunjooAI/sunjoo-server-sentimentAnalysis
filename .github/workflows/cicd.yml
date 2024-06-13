@@ -40,8 +40,15 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/sunjoo:sentimentAnalysis .
           docker push ${{ secrets.DOCKER_USERNAME }}/sunjoo:sentimentAnalysis
 
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
       - name: SSH and Deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
