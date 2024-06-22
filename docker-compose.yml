@@ -5,7 +5,7 @@ services:
     container_name: sunjoo-server-sentimentanalysis
     restart: always
     ports:
-      - "8082:8082"
+      - "8080:8083"
     environment:
       SPRING_DATASOURCE_URL: sunjoo-sentimentanalysis.clau8wyu484y.ap-northeast-2.rds.amazonaws.com/analysis_result
       SPRING_DATASOURCE_USERNAME: root

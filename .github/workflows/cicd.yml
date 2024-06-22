@@ -48,7 +48,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/sunjoo:sentimentAnalysis
+            docker pull ${{ secrets.DOCKER_USERNAME }}/sentimentAnalysis
             docker stop sunjoo || true
             docker rm sunjoo || true
             docker run -d -p 8082:8082 --name sunjoo ${{ secrets.DOCKER_USERNAME }}/sunjoo:sentimentAnalysis
