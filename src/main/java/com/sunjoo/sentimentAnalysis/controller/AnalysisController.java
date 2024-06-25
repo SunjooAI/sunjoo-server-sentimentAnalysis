@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-public class AnaltysisController {
+public class AnalysisController {
 
     @GetMapping("/getList")
     public void getList(@RequestHeader("userNo") String userNo) {
