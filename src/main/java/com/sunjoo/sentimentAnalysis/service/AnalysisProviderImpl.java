@@ -1,8 +1,19 @@
 package com.sunjoo.sentimentAnalysis.service;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.json.JSONObject;
 import com.sunjoo.sentimentAnalysis.dto.AnalysisRequest;
+import com.sunjoo.sentimentAnalysis.dto.AnalysisResult;
 import com.sunjoo.sentimentAnalysis.entity.Sentiment;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
@@ -15,12 +26,53 @@ public class AnalysisProviderImpl implements AnalysisProvider{
     private static final String CLIENT_ID_HEADER = "X-NCP-APIGW-API-KEY-ID";
     private static final String CLIENT_SECRET_HEADER = "X-NCP-APIGW-API-KEY";
 
+    @Value("${security.api.id}")
+    private String CLIENT_ID;
+    @Value("${security.api.key}")
+    private String CLIENT_SECRET;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public Sentiment analyze(AnalysisRequest reauest) throws IOException {
-        return null;
+    public Sentiment analyze(AnalysisRequest request) throws IOException {
+        final AnalysisResult textResult = getTextResult(request.getTextExpression());
+
+        return textResult.getSentiment();
     }
 
     // get Text Result
+    private AnalysisResult getTextResult(final String text) {
+        final HttpHeaders headers = makeHeaders(MediaType.APPLICATION_JSON);
+
+        final JSONObject body = new JSONObject();
+        body.put("content", text);
+
+        HttpEntity<String> httpEntity = new HttpEntity<>(body.toString(), headers);
+        final String result = restTemplate.postForObject(TEXT_API_URL, httpEntity, String.class);
+
+        final JSONObject jsonObject = new JSONObject(result);
+        final JSONObject confidence = jsonObject.getJSONObject("document").getJSONObject("confidence");
+        final double positive = confidence.getDouble("positive");
+        final double neutral = confidence.getDouble("neutral");
+
+        return AnalysisResult.of(positive, neutral);
+    }
+
+
+
+    // naver api요청 -> make header
+    private HttpHeaders makeHeaders(final MediaType mediaType) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(CLIENT_ID_HEADER, CLIENT_ID);
+        headers.add(CLIENT_SECRET_HEADER, CLIENT_SECRET);
+        headers.setContentType(mediaType);
+
+        return headers;
+    }
+
+
+
+
+
 
 }
