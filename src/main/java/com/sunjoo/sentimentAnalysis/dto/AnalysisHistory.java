@@ -1,5 +1,6 @@
 package com.sunjoo.sentimentAnalysis.dto;
 
+import com.sunjoo.sentimentAnalysis.entity.Analysis;
 import com.sunjoo.sentimentAnalysis.entity.Sentiment;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,4 +17,9 @@ public class AnalysisHistory {
     public static AnalysisHistory from(final AnalysisResponse analysis) {
         return new AnalysisHistory(analysis.getId(), analysis.getDate(), analysis.getSentiment());
     }
+
+    public static AnalysisHistory from(final Analysis analysis) {
+        return new AnalysisHistory(analysis.getResultId(), analysis.getDate(), analysis.getSentiment());
+    }
+
 }

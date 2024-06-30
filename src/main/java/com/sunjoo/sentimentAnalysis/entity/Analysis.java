@@ -2,6 +2,7 @@ package com.sunjoo.sentimentAnalysis.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Analysis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,7 @@ public class Analysis {
     private String resultContent;
 
     @Column(name = "user_id")
-    private int userId;
+    private Long userId;
 
     @Column(name = "date")
     private LocalDateTime date;
