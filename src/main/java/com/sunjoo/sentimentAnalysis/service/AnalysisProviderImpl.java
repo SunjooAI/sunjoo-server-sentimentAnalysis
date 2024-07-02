@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import com.sunjoo.sentimentAnalysis.dto.AnalysisRequest;
 import com.sunjoo.sentimentAnalysis.dto.AnalysisResult;
@@ -18,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 
 @Component
+@Log4j2
 public class AnalysisProviderImpl implements AnalysisProvider{
     // 텍스트 분석
     private static final String TEXT_API_URL = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze";
@@ -47,8 +49,13 @@ public class AnalysisProviderImpl implements AnalysisProvider{
         final JSONObject body = new JSONObject();
         body.put("content", text);
 
+        log.info("Request Body: {}", body.toString());
+        log.info("Headers: {}", headers);
+
         HttpEntity<String> httpEntity = new HttpEntity<>(body.toString(), headers);
         final String result = restTemplate.postForObject(TEXT_API_URL, httpEntity, String.class);
+
+        log.info("Response Body: {}", result);
 
         final JSONObject jsonObject = new JSONObject(result);
         final JSONObject confidence = jsonObject.getJSONObject("document").getJSONObject("confidence");
@@ -67,12 +74,9 @@ public class AnalysisProviderImpl implements AnalysisProvider{
         headers.add(CLIENT_SECRET_HEADER, CLIENT_SECRET);
         headers.setContentType(mediaType);
 
+        log.info("makeeeeee Headers: {}", headers);
         return headers;
     }
-
-
-
-
 
 
 }
