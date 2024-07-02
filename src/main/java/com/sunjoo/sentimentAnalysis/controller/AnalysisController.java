@@ -25,13 +25,16 @@ public class AnalysisController {
         return ResponseEntity.ok(analysis);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<AnalysisHistory>> findHistoriesByUserId(@RequestHeader("Authorization") String token) {
+        log.info("token값입니다: " + token);
         // userId 조회
-        UserInfoResponse userInfoResponse = userClient.getUserInfo("Bearer" + token);
+        UserInfoResponse userInfoResponse = userClient.getUserInfo(token);
         UserDTO user = userInfoResponse.getResult();
 
-        final List<AnalysisHistory> histories = analysisService.findHistoriesByUserId(user.getId());
+        log.info("idididid------" +user.getId());
+
+        final List<AnalysisHistory> histories = analysisService.findHistoriesByUserId(token);
 
         return ResponseEntity.ok(histories);
     }
@@ -40,8 +43,10 @@ public class AnalysisController {
     public ResponseEntity<AnalysisCreatedResponse> createAnalysisSource(@RequestHeader("Authorization") String token,
                                                                         @RequestBody AnalysisRequest sourceRequest) {
 
+
+        log.info("sources----------" + token);
         // userId 조회
-        UserInfoResponse userInfoResponse = userClient.getUserInfo("Bearer" + token);
+        UserInfoResponse userInfoResponse = userClient.getUserInfo(token);
         UserDTO user = userInfoResponse.getResult();
 
         final AnalysisResponse analysisResponse = analysisService.postAnalysis(user.getUserNo(), sourceRequest, token);
