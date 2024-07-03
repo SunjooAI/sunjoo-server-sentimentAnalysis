@@ -10,8 +10,8 @@ public class DrinkResponse {
     private String name;
     private double dosu;
     private int price;
-    private int volume;
-    private int sweetness;
+    private long capacity;
+    private double sugar;
     private String image;
     private String type;
 }
