@@ -40,7 +40,7 @@ public class AnalysisResponse {
                 .price(drinkResponse.getPrice())
                 .volume(drinkResponse.getVolume())
                 .sweetness(drinkResponse.getSweetness())
-                .drinkImageUrl(drinkResponse.getDrinkImageUrl())
+                .drinkImageUrl(drinkResponse.getImage())
                 .type(drinkResponse.getType())
                 .build();
     }
