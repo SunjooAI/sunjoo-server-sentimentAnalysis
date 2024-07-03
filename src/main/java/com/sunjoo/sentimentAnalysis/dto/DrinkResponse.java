@@ -12,6 +12,6 @@ public class DrinkResponse {
     private int price;
     private int volume;
     private int sweetness;
-    private String drinkImageUrl;
+    private String image;
     private String type;
 }

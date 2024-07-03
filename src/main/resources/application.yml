@@ -16,6 +16,7 @@ spring:
       ddl-auto: validate
 
 
+
 eureka:
   instance:
     prefer-ip-address: true
