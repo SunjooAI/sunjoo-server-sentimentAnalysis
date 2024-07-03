@@ -22,8 +22,8 @@ public class AnalysisResponse {
     private final String name;
     private final double dosu;
     private final int price;
-    private final int volume;
-    private final int sweetness;
+    private final double volume;
+    private final double sweetness;
     private final String drinkImageUrl;
     private final String type;
 
@@ -38,8 +38,8 @@ public class AnalysisResponse {
                 .name(drinkResponse.getName())
                 .dosu(drinkResponse.getDosu())
                 .price(drinkResponse.getPrice())
-                .volume(drinkResponse.getVolume())
-                .sweetness(drinkResponse.getSweetness())
+                .volume(drinkResponse.getCapacity())
+                .sweetness(drinkResponse.getSugar())
                 .drinkImageUrl(drinkResponse.getImage())
                 .type(drinkResponse.getType())
                 .build();
