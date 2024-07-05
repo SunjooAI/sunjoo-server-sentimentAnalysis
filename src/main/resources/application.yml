@@ -10,12 +10,15 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://sunjoo-sentimentanalysis.clau8wyu484y.ap-northeast-2.rds.amazonaws.com:3306/sunjoo?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
-    password: sunjoo-sentimentanalysis0628
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: validate
 
-
+security:
+  api:
+    id: ${NAVER_CLOVA_ID}
+    key: ${NAVER_CLOVA_KEY}
 
 eureka:
   instance:
@@ -27,5 +30,5 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://sunjoo-server-eureka-eureka-1:8761/eureka/
+      defaultZone: http://13.124.194.48:8761/eureka/
 

@@ -27,7 +27,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          NAVER_CLOVA_ID: ${{ secrets.NAVER_CLOVA_ID }}
+          NAVER_CLOVA_KEY: ${{ secrets.NAVER_CLOVA_KEY }}
+        run: ./gradlew build
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -37,8 +41,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/sunjoo:sentimentAnalysis .
-          docker push ${{ secrets.DOCKER_USERNAME }}/sunjoo:sentimentAnalysis
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/sentimentAnalysis:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/sentimentAnalysis:latest
 
       - name: SSH and Deploy
         uses: appleboy/ssh-action@v0.1.5
@@ -48,7 +52,10 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/sentimentAnalysis
-            docker stop sunjoo || true
-            docker rm sunjoo || true
-            docker run -d -p 8082:8082 --name sunjoo ${{ secrets.DOCKER_USERNAME }}/sunjoo:sentimentAnalysis
+            cd /home/ubuntu/sunjoo-server-sentimentAnalysis
+            docker-compose down
+            docker pull ${{ secrets.DOCKER_USERNAME }}/sentimentAnalysis:latest
+            docker-compose build
+            docker-compose up -d
+            docker network connect eureka-network sunjoo-server-sentimentanalysis_sentimentanalysis_1
+            docker restart sunjoo-server-sentimentanalysis_sentimentanalysis_1
