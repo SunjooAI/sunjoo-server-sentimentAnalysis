@@ -41,8 +41,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/sentimentanalysis:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/sentimentanalysis:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/analysis:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/analysis:latest
 
       - name: SSH and Deploy
         uses: appleboy/ssh-action@v0.1.5
@@ -54,8 +54,8 @@ jobs:
           script: |
             cd /home/ubuntu/sunjoo-server-sentimentAnalysis
             docker-compose down
-            docker pull ${{ secrets.DOCKER_USERNAME }}/sentimentanalysis:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/analysis:latest
             docker-compose build
             docker-compose up -d
-            docker network connect eureka-network sunjoo-server-sentimentanalysis_sentimentanalysis_1
-            docker restart sunjoo-server-sentimentanalysis_sentimentanalysis_1
+            docker network connect eureka-network sunjoo-server-sunjoo-server-sentimentanalysis_sentimentAnalysis_1
+            docker restart sunjoo-server-sentimentanalysis_sentimentAnalysis_1
