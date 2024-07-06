@@ -57,5 +57,5 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/analysis:latest
             docker compose build
             docker compose up -d
-            docker network connect eureka-network sunjoo-server-sentimentanalysis_sentimentAnalysis_1
-            docker restart sunjoo-server-sentimentanalysis_sentimentAnalysis_1
+            docker network connect eureka-network sunjoo-server-sentimentanalysis-sentimentAnalysis-1
+            docker restart sunjoo-server-sentimentanalysis-sentimentAnalysis-1
