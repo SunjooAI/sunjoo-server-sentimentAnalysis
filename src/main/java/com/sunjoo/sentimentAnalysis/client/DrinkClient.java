@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "drinktionary-service", url = "http://sunjoo-server-drinktionary-drinktionary-1:8091")
+@FeignClient(name = "drinktionary-service", url = "http://13.124.194.48:8091")
 public interface DrinkClient {
 
     @GetMapping("/drinks/{drinkId}")
